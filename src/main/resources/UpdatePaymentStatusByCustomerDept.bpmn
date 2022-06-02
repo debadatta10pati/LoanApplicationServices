@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0qy4xyp" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.7.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.14.0">
+  <bpmn:process id="checkCustomerPayments" name="Check Customer Payments" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_07wvf2d</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_07wvf2d" sourceRef="StartEvent_1" targetRef="decide_Applicant_Category" />
+    <bpmn:userTask id="decide_Applicant_Category" name="Decide Applicant Category Based on Payment">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="personalId" label="Personal Id" type="long" />
+          <camunda:formField id="paidAllInstallments" label="Paid All Installments" type="boolean" />
+          <camunda:formField id="lateOnLoanPayment" label="Late of Loan Payment?" type="boolean" />
+          <camunda:formField id="loanPaymentStatus" label="Loan Payment Status" type="enum">
+            <camunda:value id="Reliable" name="Reliable" />
+            <camunda:value id="Standard" name="Standard" />
+            <camunda:value id="Defaulter" name="Defaulter" />
+          </camunda:formField>
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_07wvf2d</bpmn:incoming>
+      <bpmn:outgoing>Flow_0bkr3t0</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_0bkr3t0" sourceRef="decide_Applicant_Category" targetRef="update_Payment_Status" />
+    <bpmn:endEvent id="Event_1intqri">
+      <bpmn:incoming>Flow_05bvcyw</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:serviceTask id="update_Payment_Status" name="Update Applicant Payment Status in DB" camunda:class="com.camunda.loanapp.util.LoanPaymentDelegate">
+      <bpmn:incoming>Flow_0bkr3t0</bpmn:incoming>
+      <bpmn:outgoing>Flow_05bvcyw</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="Flow_05bvcyw" sourceRef="update_Payment_Status" targetRef="Event_1intqri" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="checkCustomerPayments">
+      <bpmndi:BPMNEdge id="Flow_05bvcyw_di" bpmnElement="Flow_05bvcyw">
+        <di:waypoint x="510" y="117" />
+        <di:waypoint x="562" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0bkr3t0_di" bpmnElement="Flow_0bkr3t0">
+        <di:waypoint x="370" y="117" />
+        <di:waypoint x="410" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_07wvf2d_di" bpmnElement="Flow_07wvf2d">
+        <di:waypoint x="215" y="117" />
+        <di:waypoint x="270" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1dghuw7_di" bpmnElement="decide_Applicant_Category">
+        <dc:Bounds x="270" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1intqri_di" bpmnElement="Event_1intqri">
+        <dc:Bounds x="562" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1cdljbu_di" bpmnElement="update_Payment_Status">
+        <dc:Bounds x="410" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0qy4xyp" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.7.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.14.0">
+  <bpmn:process id="InformCustomerDept" name="Inform Customer Dept on Payment" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>Flow_07wvf2d</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_07wvf2d" sourceRef="StartEvent_1" targetRef="check_Payment_Status" />
+    <bpmn:userTask id="check_Payment_Status" name="Check Payment Status for Applicants">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="personalId" label="Personal Id" type="long" />
+          <camunda:formField id="paidAllInstallments" label="Paid All Installments" type="boolean" />
+          <camunda:formField id="lateOnLoanPayment" label="Late on Loan Payment?" type="boolean" />
+        </camunda:formData>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_07wvf2d</bpmn:incoming>
+      <bpmn:outgoing>Flow_0nr1lsy</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sequenceFlow id="Flow_0nr1lsy" sourceRef="check_Payment_Status" targetRef="inform_Customer_Department" />
+    <bpmn:callActivity id="inform_Customer_Department" name="Inform Customer Department" calledElement="checkCustomerPayments">
+      <bpmn:extensionElements>
+        <camunda:in source="personalId" target="personalId" />
+        <camunda:in source="paidAllInstallments" target="paidAllInstallments" />
+        <camunda:in source="lateOnLoanPayment" target="lateOnLoanPayment" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0nr1lsy</bpmn:incoming>
+      <bpmn:outgoing>Flow_10m4bqt</bpmn:outgoing>
+    </bpmn:callActivity>
+    <bpmn:endEvent id="Event_0foaasf">
+      <bpmn:incoming>Flow_10m4bqt</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_10m4bqt" sourceRef="inform_Customer_Department" targetRef="Event_0foaasf" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="InformCustomerDept">
+      <bpmndi:BPMNEdge id="Flow_10m4bqt_di" bpmnElement="Flow_10m4bqt">
+        <di:waypoint x="530" y="117" />
+        <di:waypoint x="592" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0nr1lsy_di" bpmnElement="Flow_0nr1lsy">
+        <di:waypoint x="370" y="117" />
+        <di:waypoint x="430" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_07wvf2d_di" bpmnElement="Flow_07wvf2d">
+        <di:waypoint x="215" y="117" />
+        <di:waypoint x="270" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1dghuw7_di" bpmnElement="check_Payment_Status">
+        <dc:Bounds x="270" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1j6s7pi_di" bpmnElement="inform_Customer_Department">
+        <dc:Bounds x="430" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0foaasf_di" bpmnElement="Event_0foaasf">
+        <dc:Bounds x="592" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

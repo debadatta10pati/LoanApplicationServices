@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="MakeLoanDeicision" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="4.7.0">
+  <decision id="LoanDecision" name="Loan Deicision">
+    <decisionTable id="DecisionTable_0uyzo20">
+      <input id="InputClause_0afui1a" label="Risk Score" camunda:inputVariable="riskScore">
+        <inputExpression id="LiteralExpression_18pti3c" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="Loan Deicision" name="loanDecision" typeRef="string" />
+      <rule id="DecisionRule_1vchxzy">
+        <inputEntry id="UnaryTests_0z25n68">
+          <text>"Low"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_05zvb2z">
+          <text>"Approved"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1q2bfil">
+        <inputEntry id="UnaryTests_0m9znsb">
+          <text>"High"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1gji1jx">
+          <text>"Rejected"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="LoanDecision">
+        <dc:Bounds height="80" width="180" x="160" y="100" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>
